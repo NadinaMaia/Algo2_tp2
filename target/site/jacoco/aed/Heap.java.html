@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Heap.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tp2</a> &gt; <a href="index.source.html" class="el_package">aed</a> &gt; <span class="el_source">Heap.java</span></div><h1>Heap.java</h1><pre class="source lang-java linenums">package aed;
+import java.util.ArrayList;
+
+public class Heap {
+
+    private ArrayList&lt;Integer&gt; elementos;
+    private int cantidadNodos;
+
+<span class="fc" id="L9">    public Heap() {</span>
+<span class="fc" id="L10">        elementos = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L11">        cantidadNodos = 0;</span>
+<span class="fc" id="L12">    }</span>
+
+    public boolean Vacio() {
+<span class="pc bpc" id="L15" title="1 of 2 branches missed.">        return (cantidadNodos == 0);</span>
+    }
+
+    public int Maximo() {
+<span class="fc" id="L19">        return elementos.get(0);</span>
+        }
+
+    public void Agregar(int elem) {
+<span class="fc" id="L23">        elementos.add(elem);</span>
+<span class="fc" id="L24">        cantidadNodos = cantidadNodos + 1;</span>
+<span class="fc" id="L25">        SiftUp(cantidadNodos - 1);</span>
+<span class="fc" id="L26">    }</span>
+    
+    private void SiftUp(int indiceActual){
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (indiceActual == 0 ) {</span>
+<span class="fc" id="L30">            return;</span>
+        }
+<span class="fc" id="L32">        int indicePadre = (indiceActual - 1) / 2;</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        if (elementos.get(indiceActual) &gt; elementos.get(indicePadre)) {</span>
+<span class="fc" id="L34">            int Actual = elementos.get(indiceActual);</span>
+<span class="fc" id="L35">            elementos.set(indiceActual, elementos.get(indicePadre));</span>
+<span class="fc" id="L36">            elementos.set(indicePadre, Actual);</span>
+            
+<span class="fc" id="L38">            SiftUp(indicePadre);</span>
+        }
+<span class="fc" id="L40">    }</span>
+
+    public int SacarMaximo() {
+<span class="fc" id="L43">        int maximo = elementos.get(0);</span>
+<span class="fc" id="L44">        elementos.set(0, elementos.get(cantidadNodos - 1));</span>
+<span class="fc" id="L45">        elementos.remove(cantidadNodos - 1);</span>
+<span class="fc" id="L46">        cantidadNodos = cantidadNodos -1;</span>
+<span class="fc" id="L47">        SiftDown(0);</span>
+<span class="fc" id="L48">        return maximo;</span>
+    }
+
+    private void SiftDown(int indice){
+<span class="fc" id="L52">        int indiceHijoDer = 2 * indice + 1;</span>
+<span class="fc" id="L53">        int indiceHijoIzq = 2 * indice + 2;</span>
+<span class="fc" id="L54">        int indiceMaximo = indice;</span>
+        
+<span class="pc bpc" id="L56" title="1 of 4 branches missed.">        if (indiceHijoIzq &lt; cantidadNodos &amp;&amp; elementos.get(indiceHijoIzq) &gt; elementos.get(indiceMaximo)) {</span>
+<span class="fc" id="L57">            indiceMaximo = indiceHijoIzq;</span>
+        }
+        
+<span class="pc bpc" id="L60" title="1 of 4 branches missed.">        if (indiceHijoDer &lt; cantidadNodos &amp;&amp; elementos.get(indiceHijoDer) &gt; elementos.get(indiceMaximo)) {</span>
+<span class="fc" id="L61">            indiceMaximo = indiceHijoDer;</span>
+        }
+
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (indiceMaximo != indice) {</span>
+<span class="fc" id="L65">            int Actual = elementos.get(indice);</span>
+<span class="fc" id="L66">            elementos.set(indice, elementos.get(indiceMaximo));</span>
+<span class="fc" id="L67">            elementos.set(indiceMaximo, Actual);</span>
+<span class="fc" id="L68">            SiftDown(indiceMaximo);</span>
+        }
+<span class="fc" id="L70">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
