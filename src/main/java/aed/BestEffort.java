@@ -3,10 +3,25 @@ package aed;
 import java.util.ArrayList;
 
 public class BestEffort {
-    //Completar atributos privados
+    private Traslados traslados;
+    private Ciudades ciudades; 
 
-    public BestEffort(int cantCiudades, Traslado[] traslados){
-        // Implementar
+    public BestEffort(int cantCiudades, Traslado[] traslados){ //complejidad O(|C| + |T|)
+        int i = 0;
+        ArrayList<Traslado> arr = new ArrayList<Traslado>(traslados.length);
+        while (i < traslados.length){ //complejidad O(|T|)
+            arr.set(i, traslados[i]);
+            i++;
+        }
+        this.traslados = new Traslados(arr); //complejidad O(|T|)
+        int j = 0; 
+        ArrayList<Ciudad> arrCiudades = new ArrayList<Ciudad>(cantCiudades);
+        while(j < cantCiudades){//complejidad O(|C|)
+            Ciudad c = new Ciudad();
+            arrCiudades.set(j,c);
+            j++;
+        }
+        this.ciudades = new Ciudades(arrCiudades);//complejidad O(|C|)
     }
 
     public void registrarTraslados(Traslado[] traslados){

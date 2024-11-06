@@ -1,25 +1,32 @@
 package aed;
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class Heap {
+public class Heap<T> {
 
-    private ArrayList<Integer> elementos;
+    private ArrayList<T> elementos;
     private int cantidadNodos;
+    private Comparator<T> comparador; 
 
-    public Heap() {
-        elementos = new ArrayList<>();
-        cantidadNodos = 0;
+    
+    public Heap(ArrayList<T> arr, Comparator<T> comp) {
+        cantidadNodos = arr.size();
+        elementos = arr;
+        comparador = comp;
+        for (int i = cantidadNodos / 2 - 1; i >= 0; i--) {
+            SiftDown(i);
+        }
     }
 
     public boolean Vacio() {
         return (cantidadNodos == 0);
     }
 
-    public int Maximo() {
+    public T Maximo() {
         return elementos.get(0);
         }
 
-    public void Agregar(int elem) {
+    public void Agregar(T elem) {
         elementos.add(elem);
         cantidadNodos = cantidadNodos + 1;
         SiftUp(cantidadNodos - 1);
@@ -30,8 +37,8 @@ public class Heap {
             return;
         }
         int indicePadre = (indiceActual - 1) / 2;
-        if (elementos.get(indiceActual) > elementos.get(indicePadre)) {
-            int Actual = elementos.get(indiceActual);
+        if (comparador.compare(elementos.get(indiceActual), elementos.get(indicePadre)) > 0) {
+            T Actual = elementos.get(indiceActual);
             elementos.set(indiceActual, elementos.get(indicePadre));
             elementos.set(indicePadre, Actual);
             
@@ -39,8 +46,8 @@ public class Heap {
         }
     }
 
-    public int SacarMaximo() {
-        int maximo = elementos.get(0);
+    public T SacarMaximo() {
+        T maximo = elementos.get(0);
         elementos.set(0, elementos.get(cantidadNodos - 1));
         elementos.remove(cantidadNodos - 1);
         cantidadNodos = cantidadNodos -1;
@@ -53,16 +60,16 @@ public class Heap {
         int indiceHijoIzq = 2 * indice + 2;
         int indiceMaximo = indice;
         
-        if (indiceHijoIzq < cantidadNodos && elementos.get(indiceHijoIzq) > elementos.get(indiceMaximo)) {
+        if (indiceHijoIzq < cantidadNodos && comparador.compare(elementos.get(indiceHijoIzq), elementos.get(indiceMaximo)) < 0) {
             indiceMaximo = indiceHijoIzq;
         }
         
-        if (indiceHijoDer < cantidadNodos && elementos.get(indiceHijoDer) > elementos.get(indiceMaximo)) {
+        if (indiceHijoDer < cantidadNodos && comparador.compare(elementos.get(indiceHijoDer), elementos.get(indiceMaximo)) < 0) {
             indiceMaximo = indiceHijoDer;
         }
 
         if (indiceMaximo != indice) {
-            int Actual = elementos.get(indice);
+            T Actual = elementos.get(indice);
             elementos.set(indice, elementos.get(indiceMaximo));
             elementos.set(indiceMaximo, Actual);
             SiftDown(indiceMaximo);
