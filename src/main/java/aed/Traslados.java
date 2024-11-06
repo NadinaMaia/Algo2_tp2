@@ -12,10 +12,18 @@ public class Traslados {
         masAntiguo = new Heap<>(infoTraslados, new ComparadorMasAntiguo());
     }
 
-    public void registrarTraslados(Traslado[] traslados) {
-        for (Traslado t : traslados) {
-            masRedituable.Agregar(t);    
-            masAntiguo.Agregar(t);       
+    public void registrarTraslados(Traslado[] traslados) {//O(|traslados|log(|T|))
+        for (Traslado t : traslados) {//O(|traslados|)
+            masRedituable.Agregar(t);//O(log|T|)   
+            masAntiguo.Agregar(t);//O(log|T|)       
         }
+    }
+
+    public Heap<Traslados> obtenerMasRedituable() {//O(1)
+        return masRedituable; //O(1)
+    }
+    
+    public Heap<Traslados> obtenerMasAntiguo(){//O(1)
+        return masAntiguo;//O(1)
     }
 }

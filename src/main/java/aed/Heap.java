@@ -22,7 +22,7 @@ public class Heap<T> {
         return (cantidadNodos == 0);
     }
 
-    public T Maximo() {
+    public T Maximo() { //O(1)
         return elementos.get(0);
         }
 
@@ -55,6 +55,10 @@ public class Heap<T> {
         return maximo;
     }
 
+    public int obtenerCantNodos(){
+        return cantidadNodos;
+    }
+
     private void SiftDown(int indice){
         int indiceHijoDer = 2 * indice + 1;
         int indiceHijoIzq = 2 * indice + 2;
@@ -75,4 +79,5 @@ public class Heap<T> {
             SiftDown(indiceMaximo);
         }
     }
+    
 }
