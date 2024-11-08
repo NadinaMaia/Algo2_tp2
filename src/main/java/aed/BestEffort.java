@@ -1,6 +1,7 @@
 package aed;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BestEffort {
     private Traslados traslados;
@@ -86,12 +87,13 @@ public class BestEffort {
     }
 
     public ArrayList<Integer> ciudadesConMayorGanancia(){
-        return null; 
+        return new ArrayList<Integer>(ciudades.mayorGanancia.subList(0, ciudades.tamañoG));
     }
 
+
+
     public ArrayList<Integer> ciudadesConMayorPerdida(){
-        // Implementar
-        return null;
+        return new ArrayList<Integer>(ciudades.mayorPerdida.subList(0, ciudades.tamañoP));
     }
 
     public int gananciaPromedioPorTraslado(){

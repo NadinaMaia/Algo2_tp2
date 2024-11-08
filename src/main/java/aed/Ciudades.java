@@ -32,7 +32,7 @@ public class Ciudades {
                         tamañoG ++;
                     }
                     else if (ciudadOrigen.ganancia> ciudades.mayorGanancia.get(0).ganancia){
-                        mayorGanancia = new ArrayList<Ciudad>(ciudades.ciudadesArray.size());
+                        mayorGanancia = new ArrayList<int>(ciudades.ciudadesArray.size());
                         mayorGanancia.add(ciudadOrigen.id);
                         tamañoG = 1;
 
@@ -54,7 +54,7 @@ public class Ciudades {
                         ciudades.tamañoG ++;
                     }
                     else if (ciudadDestino.ganancia> ciudades.mayorGanancia.get(0).perdida){
-                        ciudades.mayorPerdida = new ArrayList<Ciudad>(ciudades.ciudadesArray.size());
+                        ciudades.mayorPerdida = new ArrayList<int>(ciudades.ciudadesArray.size());
                         ciudades.mayorPerdida.add(ciudadDestino.id);
                         ciudades.tamañoG = 1;
 

@@ -86,14 +86,21 @@ public class Heap<T> {
             T ElemIndiceMax = elementos.get(indiceMaximo);
             elementos.set(indice, elementos.get(indiceMaximo));
             elementos.set(indiceMaximo, Actual);
+            //este es el caso traslado
             Actual.Handles[tipo] = indiceMaximo;
             ElemIndiceMax.Handles[tipo] = indice;
+            //caso ciudades
+            //Actual.Handles = indiceMaximo
+            //ElemIndiceMax.Handles = indice;
             SiftDown(indiceMaximo);
         }
         
         else {
             T Actual = elementos.get(indice);
+            //caso traslado
             Actual.Handles[tipo] = indice;
+            //caso ciudades
+            // Actual.Handles = indice;
         }
     }
     
