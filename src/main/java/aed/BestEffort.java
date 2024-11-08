@@ -29,31 +29,38 @@ public class BestEffort {
     }
 
     public int[] despacharMasRedituables(int n){ //O(n(log(|T|)+log(|C|)))
-        int[] nuevo_array; //O(1)
-        Heap<Traslados> trasladosR = traslados.obtenerMasRedituable(); //O(1)
+        int[] nuevo_array = new int[n]; //O(1)
+        Heap<Traslado> trasladosR = traslados.obtenerMasRedituable(); //O(1)
         for (int i=0; i<n; i++){ // O(n)
             if (i>trasladosR.obtenerCantNodos()){ //O(1) 
                 return nuevo_array; //O(1)    
             } else{
                 //sacar el maximo y agregarlo al array
-                Traslado max =trasladosR.Maximo(); //O(1)
+                Traslado max = trasladosR.Maximo(); //O(1)
                 trasladosR.SacarMaximo(); //O(log|T|)
                 nuevo_array[i]= max.id;
 
                 //tenemos que sacar el maximo a masAntiguo
 
                 //modificamos las ganancias, perdidas, superavits de las ciudades despachadas EN LOS HEAPS
-                C = ciudades.obtenerCiudades();//O(1)
-                C[max.destino].actualizarPerdida(max.gananciaNeta);//O(1)
-                C[max.origen].actualizarGanancia(max.gananciaNeta);//O(1)
+                ciudades.ciudadesArray.get(max.destino).actualizarPerdida(max.gananciaNeta);//O(1)
+                ciudades.ciudadesArray.get(max.origen).actualizarGanancia(max.gananciaNeta);//O(1)
+                Ciudad ciudadOrigen = ciudades.ciudadesArray.get(max.origen);
+                Ciudad ciudadDestino =  ciudades.ciudadesArray.get(max.destino);
+                ciudades.actualizarMayorGanancia(ciudadOrigen);
+                ciudades.actualizarMayorPerdida(ciudadDestino);
+
+                
+
+
             }
         } //COMPLEJIDAD HASTA AHORA //O(n(log|T|))
         return nuevo_array;
     }
 
     public int[] despacharMasAntiguos(int n){//O(n(log(|T|)+log(|C|)))
-        int[] nuevo_array; //O(1)
-        Heap<Traslados> trasladosA = traslados.obtenerMasAntiguo(); //O(1)
+        int[] nuevo_array = new int[n]; //O(1)
+        Heap<Traslado> trasladosA = traslados.obtenerMasAntiguo(); //O(1)
         for (int i=0; i<n; i++){ // O(n)
             if (i>trasladosA.obtenerCantNodos()){ //O(1) 
                 return nuevo_array; //O(1)    
@@ -66,9 +73,9 @@ public class BestEffort {
                 //tenemos que sacar el maximo a masAntiguo
 
                 //modificamos las ganancias, perdidas, superavits de las ciudades despachadas EN LOS HEAPS
-                C = ciudades.obtenerCiudades();//O(1)
-                C[max.destino].actualizarPerdida(max.gananciaNeta);//O(1)
-                C[max.origen].actualizarGanancia(max.gananciaNeta);//O(1)
+                ArrayList<Ciudad> C = ciudades.obtenerCiudades();//O(1)
+                C.get(max.destino).actualizarPerdida(max.gananciaNeta);//O(1)
+                C.get(max.origen).actualizarGanancia(max.gananciaNeta);//O(1)
             }
         } //COMPLEJIDAD HASTA AHORA //O(n(log|T|))
         return nuevo_array;

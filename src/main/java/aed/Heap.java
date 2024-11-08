@@ -7,15 +7,17 @@ public class Heap<T> {
     private ArrayList<T> elementos;
     private int cantidadNodos;
     private Comparator<T> comparador; 
+    private Integer tipo;
 
     
-    public Heap(ArrayList<T> arr, Comparator<T> comp) {
+    public Heap(ArrayList<T> arr, Comparator<T> comp, int tipo) {
         cantidadNodos = arr.size();
         elementos = arr;
         comparador = comp;
         for (int i = cantidadNodos / 2 - 1; i >= 0; i--) {
             SiftDown(i);
         }
+        this.tipo = tipo;
     }
 
     public boolean Vacio() {
@@ -39,10 +41,17 @@ public class Heap<T> {
         int indicePadre = (indiceActual - 1) / 2;
         if (comparador.compare(elementos.get(indiceActual), elementos.get(indicePadre)) > 0) {
             T Actual = elementos.get(indiceActual);
+            T ElemIndicePadre = elementos.get(indicePadre);
             elementos.set(indiceActual, elementos.get(indicePadre));
             elementos.set(indicePadre, Actual);
-            
+            Actual.Handles[tipo] = indicePadre;
+            ElemIndicePadre.Handles[tipo] = indiceActual;
             SiftUp(indicePadre);
+        }
+
+        else {
+            T Actual = elementos.get(indiceActual);
+            Actual.Handles[tipo] = indiceActual;
         }
     }
 
@@ -74,9 +83,17 @@ public class Heap<T> {
 
         if (indiceMaximo != indice) {
             T Actual = elementos.get(indice);
+            T ElemIndiceMax = elementos.get(indiceMaximo);
             elementos.set(indice, elementos.get(indiceMaximo));
             elementos.set(indiceMaximo, Actual);
+            Actual.Handles[tipo] = indiceMaximo;
+            ElemIndiceMax.Handles[tipo] = indice;
             SiftDown(indiceMaximo);
+        }
+        
+        else {
+            T Actual = elementos.get(indice);
+            Actual.Handles[tipo] = indice;
         }
     }
     

@@ -1,15 +1,14 @@
 package aed;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public class Traslados {
     private Heap<Traslado> masRedituable;   
     private Heap<Traslado> masAntiguo;      
 
     public Traslados(ArrayList<Traslado> infoTraslados) { 
-        masRedituable = new Heap<>(infoTraslados, new ComparadorGananciaNeta());
-        masAntiguo = new Heap<>(infoTraslados, new ComparadorMasAntiguo());
+        masRedituable = new Heap<>(infoTraslados, new ComparadorGananciaNeta(),0);
+        masAntiguo = new Heap<>(infoTraslados, new ComparadorMasAntiguo(),1);
     }
 
     public void registrarTraslados(Traslado[] traslados) {//O(|traslados|log(|T|))
@@ -19,11 +18,11 @@ public class Traslados {
         }
     }
 
-    public Heap<Traslados> obtenerMasRedituable() {//O(1)
+    public Heap<Traslado> obtenerMasRedituable() {//O(1)
         return masRedituable; //O(1)
     }
     
-    public Heap<Traslados> obtenerMasAntiguo(){//O(1)
+    public Heap<Traslado> obtenerMasAntiguo(){//O(1)
         return masAntiguo;//O(1)
     }
 }

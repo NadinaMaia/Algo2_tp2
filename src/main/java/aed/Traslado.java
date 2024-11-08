@@ -1,5 +1,7 @@
 package aed;
 
+import java.util.ArrayList;
+
 public class Traslado {
     
     int id;
@@ -7,6 +9,7 @@ public class Traslado {
     int destino;
     int gananciaNeta;
     int timestamp;
+    ArrayList<Integer> Handles;
 
     public Traslado(int id, int origen, int destino, int gananciaNeta, int timestamp){
         this.id = id;
@@ -14,5 +17,6 @@ public class Traslado {
         this.destino = destino;
         this.gananciaNeta = gananciaNeta;
         this.timestamp = timestamp;
+        this.Handles = new ArrayList<>(2);
     }
 }
