@@ -1,0 +1,9 @@
+public  class Elemento{
+    public  ArrayList<Traslados> traslados;
+    public ArrayList<Ciudades> ciudades;
+
+public Elemento (ArrayList<Traslados> traslados, ArrayList<Ciudad> ciudad){
+    this.traslados = traslados;
+    this.ciudad = ciudad;
+    }
+}
