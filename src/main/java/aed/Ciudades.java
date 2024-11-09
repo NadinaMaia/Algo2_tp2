@@ -9,6 +9,8 @@ public class Ciudades {
     Heap<Ciudad> mayorSuperavit;
     int tamañoG;
     int tamañoP;
+    int gananciaMax;
+    int perdidaMax;
 
     public Ciudades(ArrayList<Ciudad> arr) {
         mayorGanancia = new ArrayList<Integer>(arr.size());
@@ -16,25 +18,28 @@ public class Ciudades {
         tamañoG=0;
         tamañoP=0;
         mayorSuperavit = new Heap<>(arr, new ComparadorSuperavit(),0);
-        ciudadesArray = arr;
+        ciudadesArray = new ArrayList<Ciudad> (arr);
+        gananciaMax = 0;
+        perdidaMax=0;
     }
 
     public void actualizarMayorGanancia(Ciudad ciudadOrigen){
         if (tamañoG==0){
                     mayorGanancia.add(ciudadOrigen.id);
                     tamañoG ++;
+                    gananciaMax= ciudadOrigen.ganancia;
                 }
                 else{
                     
-                    int ciudadG = mayorGanancia.get(0);
-                    if (ciudadOrigen.ganancia == ciudadesArray.get(ciudadG).ganancia){
+                    if (ciudadOrigen.ganancia == gananciaMax){
                         mayorGanancia.add(ciudadOrigen.id);
                         tamañoG ++;
                     }
-                    else if (ciudadOrigen.ganancia> ciudadesArray.get(ciudadG).ganancia){
+                    else if (ciudadOrigen.ganancia> gananciaMax){
                         mayorGanancia = new ArrayList<Integer>(ciudadesArray.size());
                         mayorGanancia.add(ciudadOrigen.id);
                         tamañoG = 1;
+                        gananciaMax= ciudadOrigen.ganancia;
 
                     }
 
@@ -44,18 +49,20 @@ public class Ciudades {
     public void actualizarMayorPerdida(Ciudad ciudadDestino){
         if (tamañoP==0){
                     mayorPerdida.add(ciudadDestino.id);
-                    tamañoG ++;
+                    tamañoP ++;
+                    perdidaMax= ciudadDestino.perdida;
                 }
                 else{
-                    int ciudadP = mayorGanancia.get(0);
-                    if (ciudadDestino.perdida == ciudadesArray.get(ciudadP).perdida){
+                    if (ciudadDestino.perdida == perdidaMax){
                         mayorPerdida.add(ciudadDestino.id);
-                        tamañoG ++;
+                        tamañoP ++;
+
                     }
-                    else if (ciudadDestino.ganancia> ciudadesArray.get(ciudadP).perdida){
+                    else if (ciudadDestino.perdida > perdidaMax){
                         mayorPerdida = new ArrayList<Integer>(ciudadesArray.size());
                         mayorPerdida.add(ciudadDestino.id);
-                        tamañoG = 1;
+                        tamañoP = 1;
+                        perdidaMax= ciudadDestino.perdida;
 
                     }
 

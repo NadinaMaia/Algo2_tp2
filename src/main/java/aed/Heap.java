@@ -12,7 +12,7 @@ public class Heap<T> {
     
     public Heap(ArrayList<T> arr, Comparator<T> comp, int tipo) {
         cantidadNodos = arr.size();
-        elementos = arr;
+        elementos = new ArrayList<T>(arr);
         comparador = comp;
         this.tipo = tipo;
         for (int i = cantidadNodos / 2 - 1; i >= 0; i--) {
