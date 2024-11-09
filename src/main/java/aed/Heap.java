@@ -5,7 +5,7 @@ import java.util.Comparator;
 public class Heap<T> {
 
     private ArrayList<T> elementos;
-    private int cantidadNodos;
+    int cantidadNodos;
     private Comparator<T> comparador; 
     private Integer tipo;
 
@@ -83,11 +83,11 @@ public class Heap<T> {
         int indiceHijoIzq = 2 * indice + 2;
         int indiceMaximo = indice;
 
-        if (indiceHijoIzq < cantidadNodos &&  comparador.compare(elementos.get(indiceHijoIzq), elementos.get(indiceMaximo))<0) {
+        if (indiceHijoIzq < cantidadNodos && comparador.compare(elementos.get(indiceHijoIzq), elementos.get(indiceMaximo)) > 0) {
             indiceMaximo = indiceHijoIzq;
         }
 
-        if (indiceHijoDer < cantidadNodos && 0<comparador.compare(elementos.get(indiceHijoDer), elementos.get(indiceMaximo))) {
+        if (indiceHijoDer < cantidadNodos && comparador.compare(elementos.get(indiceHijoDer), elementos.get(indiceMaximo)) > 0) {
             indiceMaximo = indiceHijoDer;
         }
 

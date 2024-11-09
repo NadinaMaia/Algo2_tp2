@@ -40,9 +40,8 @@ public class BestEffort {
                 traslados.masRedituable.SacarMaximo(); //O(log|T|)
                 nuevo_array[i]= max.id;
 
-                //tenemos que sacar el maximo a masAntiguo
-                int indiceEnMasAntiguo= max.Handles.get(1);//O(1)
-                traslados.masAntiguo.eliminarEn(indiceEnMasAntiguo);//O(log|T|)
+                //tenemos que sacar el maximo a masAntiguo (lo saca solo?)
+                traslados.masAntiguo.cantidadNodos= traslados.masAntiguo.cantidadNodos-1;//O(log|T|)
                 //modificamos las ganancias, perdidas, superavits de las ciudades despachadas EN LOS HEAPS
                 ciudades.ciudadesArray.get(max.destino).actualizarPerdida(max.gananciaNeta);//O(1)
                 ciudades.ciudadesArray.get(max.origen).actualizarGanancia(max.gananciaNeta);//O(1)
