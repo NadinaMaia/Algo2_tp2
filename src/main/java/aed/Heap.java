@@ -68,15 +68,15 @@ public class Heap<T> {
         return cantidadNodos;
     }
 
-    private void SiftDown(int indice){
+    private void SiftDown(int indice) {
         int indiceHijoDer = 2 * indice + 1;
         int indiceHijoIzq = 2 * indice + 2;
         int indiceMaximo = indice;
-        
+
         if (indiceHijoIzq < cantidadNodos && comparador.compare(elementos.get(indiceHijoIzq), elementos.get(indiceMaximo)) < 0) {
             indiceMaximo = indiceHijoIzq;
         }
-        
+
         if (indiceHijoDer < cantidadNodos && comparador.compare(elementos.get(indiceHijoDer), elementos.get(indiceMaximo)) < 0) {
             indiceMaximo = indiceHijoDer;
         }
@@ -86,22 +86,23 @@ public class Heap<T> {
             T ElemIndiceMax = elementos.get(indiceMaximo);
             elementos.set(indice, elementos.get(indiceMaximo));
             elementos.set(indiceMaximo, Actual);
-            //este es el caso traslado
-            Actual.Handles[tipo] = indiceMaximo;
-            ElemIndiceMax.Handles[tipo] = indice;
-            //caso ciudades
-            //Actual.Handles = indiceMaximo
-            //ElemIndiceMax.Handles = indice;
+
+            if (Actual instanceof Traslado && ElemIndiceMax instanceof Traslado) {
+                // Caso de traslado
+                ((Traslado) Actual).Handles.set(tipo, indiceMaximo);
+                ((Traslado) ElemIndiceMax).Handles.set(tipo, indice);
+            } else {
+                ((Ciudad) Actual).Handle = indiceMaximo;
+                ((Ciudad) ElemIndiceMax).Handle = indice;
+            }
             SiftDown(indiceMaximo);
-        }
-        
-        else {
+        } else {
             T Actual = elementos.get(indice);
-            //caso traslado
-            Actual.Handles[tipo] = indice;
-            //caso ciudades
-            // Actual.Handles = indice;
+            if (Actual instanceof Traslado){
+                ((Traslado) Actual).Handles.set(tipo, indice);
+            } else {
+                ((Ciudad) Actual).Handle = indice;
+            }
         }
     }
-    
 }
