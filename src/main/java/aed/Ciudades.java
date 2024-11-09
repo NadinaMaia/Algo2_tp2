@@ -15,7 +15,7 @@ public class Ciudades {
         mayorPerdida = new ArrayList<Integer>(arr.size());
         tamañoG=0;
         tamañoP=0;
-        mayorSuperavit = new Heap<>(arr, new ComparadorSuperavit(),2);
+        mayorSuperavit = new Heap<>(arr, new ComparadorSuperavit(),0);
         ciudadesArray = arr;
     }
 
@@ -61,6 +61,11 @@ public class Ciudades {
 
                 }
     }
+    public void actualizarHeap(Ciudad c){
+        int indice = c.Handle;
+        mayorSuperavit.modificarEn(indice, c);
+
+    } 
     public ArrayList<Integer> obtenerMayorGanancia(){ //O(1)
         return mayorGanancia;
     }

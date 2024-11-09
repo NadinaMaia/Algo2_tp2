@@ -3,8 +3,8 @@ package aed;
 import java.util.ArrayList;
 
 public class Traslados {
-    private Heap<Traslado> masRedituable;   
-    private Heap<Traslado> masAntiguo;      
+     Heap<Traslado> masRedituable;   
+     Heap<Traslado> masAntiguo;      
 
     public Traslados(ArrayList<Traslado> infoTraslados) { 
         masRedituable = new Heap<>(infoTraslados, new ComparadorGananciaNeta(),0);

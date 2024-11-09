@@ -14,10 +14,10 @@ public class Heap<T> {
         cantidadNodos = arr.size();
         elementos = arr;
         comparador = comp;
+        this.tipo = tipo;
         for (int i = cantidadNodos / 2 - 1; i >= 0; i--) {
             SiftDown(i);
         }
-        this.tipo = tipo;
     }
 
     public boolean Vacio() {
@@ -44,15 +44,25 @@ public class Heap<T> {
             T ElemIndicePadre = elementos.get(indicePadre);
             elementos.set(indiceActual, elementos.get(indicePadre));
             elementos.set(indicePadre, Actual);
-            Actual.Handles[tipo] = indicePadre;
-            ElemIndicePadre.Handles[tipo] = indiceActual;
+            if (Actual instanceof Traslado && ElemIndicePadre instanceof Traslado) {
+                // Caso de traslado
+                ((Traslado) Actual).Handles.set(tipo, indicePadre);
+                ((Traslado) ElemIndicePadre).Handles.set(tipo, indiceActual);
+            } else {
+                ((Ciudad) Actual).Handle = indicePadre;
+                ((Ciudad) ElemIndicePadre).Handle = indiceActual;
+            }
             SiftUp(indicePadre);
         }
 
         else {
             T Actual = elementos.get(indiceActual);
-            Actual.Handles[tipo] = indiceActual;
-        }
+            if (Actual instanceof Traslado){
+                ((Traslado) Actual).Handles.set(tipo, indiceActual);
+            } else {
+                ((Ciudad) Actual).Handle = indiceActual;
+            }
+        }    
     }
 
     public T SacarMaximo() {
@@ -73,11 +83,11 @@ public class Heap<T> {
         int indiceHijoIzq = 2 * indice + 2;
         int indiceMaximo = indice;
 
-        if (indiceHijoIzq < cantidadNodos && comparador.compare(elementos.get(indiceHijoIzq), elementos.get(indiceMaximo)) < 0) {
+        if (indiceHijoIzq < cantidadNodos &&  comparador.compare(elementos.get(indiceHijoIzq), elementos.get(indiceMaximo))<0) {
             indiceMaximo = indiceHijoIzq;
         }
 
-        if (indiceHijoDer < cantidadNodos && comparador.compare(elementos.get(indiceHijoDer), elementos.get(indiceMaximo)) < 0) {
+        if (indiceHijoDer < cantidadNodos && 0<comparador.compare(elementos.get(indiceHijoDer), elementos.get(indiceMaximo))) {
             indiceMaximo = indiceHijoDer;
         }
 
@@ -102,6 +112,36 @@ public class Heap<T> {
                 ((Traslado) Actual).Handles.set(tipo, indice);
             } else {
                 ((Ciudad) Actual).Handle = indice;
+            }
+        }
+    }
+    public void eliminarEn (int indice){
+        if (indice < 0 || indice>= cantidadNodos){
+            
+        }
+        else {
+            T ultimoElemento= elementos.get(cantidadNodos-1);
+            elementos.set(indice,ultimoElemento);
+            SiftDown(indice);
+            elementos.remove(cantidadNodos-1);
+            cantidadNodos--;
+        }
+    }
+
+    public void modificarEn (int indice, T elem){
+        if (indice < 0 || indice>= cantidadNodos){
+            
+        }
+        else {
+            T elementoAmodificar = elementos.get(indice);
+            elementos.set(indice,elem);
+            if (comparador.compare(elementoAmodificar, elem)< 0) {
+                SiftDown(indice);
+            }
+            // Si el nuevo valor es menor, puede necesitar un SiftDown
+            else if (0 < comparador.compare(elementoAmodificar, elem)) {
+                SiftUp(indice);
+
             }
         }
     }

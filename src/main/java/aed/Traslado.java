@@ -18,5 +18,7 @@ public class Traslado {
         this.gananciaNeta = gananciaNeta;
         this.timestamp = timestamp;
         this.Handles = new ArrayList<>(2);
+        Handles.add(0);
+        Handles.add(0);
     }
 }
