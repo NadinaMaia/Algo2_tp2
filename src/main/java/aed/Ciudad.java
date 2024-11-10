@@ -21,7 +21,7 @@ public class Ciudad {
     }
     public void actualizarPerdida(int cant){ //O(1)
         perdida += cant;
-        superavit += ganancia - perdida;
+        superavit = ganancia - perdida;
 
     }
 

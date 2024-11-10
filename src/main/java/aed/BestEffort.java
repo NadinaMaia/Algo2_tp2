@@ -39,7 +39,6 @@ public class BestEffort {
                 Traslado max = traslados.masRedituable.Maximo(); //O(1)
                 traslados.masRedituable.SacarMaximo(); //O(log|T|)
                 nuevo_array[i]= max.id;
-
                 //tenemos que sacar el maximo a masAntiguo (lo saca solo?)
                 traslados.masAntiguo.cantidadNodos= traslados.masAntiguo.cantidadNodos-1;//O(log|T|)
                 //modificamos las ganancias, perdidas, superavits de las ciudades despachadas EN LOS HEAPS
@@ -51,9 +50,6 @@ public class BestEffort {
                 ciudades.actualizarMayorPerdida(ciudadDestino);//O(1)
                 ciudades.actualizarHeap(ciudadOrigen); // O(log(|C|)
                 ciudades.actualizarHeap(ciudadDestino);//O(log(|C|)
-
-                
-
 
             }
         } //COMPLEJIDAD HASTA AHORA //O(n(log|T|))
@@ -70,7 +66,6 @@ public class BestEffort {
                 Traslado max =traslados.masAntiguo.Maximo(); //O(1)
                 traslados.masAntiguo.SacarMaximo(); //O(log|T|)
                 nuevo_array[i]= max.id;
-
                 //tenemos que sacar el maximo a masRedituables
                 traslados.masRedituable.cantidadNodos--;
                 //modificamos las ganancias, perdidas, superavits de las ciudades despachadas EN LOS HEAPS

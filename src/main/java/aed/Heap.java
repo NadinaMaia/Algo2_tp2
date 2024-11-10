@@ -130,7 +130,7 @@ public class Heap<T> {
 
     public void modificarEn (int indice, T elem){
         if (indice < 0 || indice>= cantidadNodos){
-            
+            return;
         }
         else {
             T elementoAmodificar = elementos.get(indice);

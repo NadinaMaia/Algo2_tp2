@@ -13,7 +13,7 @@ public class Traslados {
 
     public void registrarTraslados(Traslado[] traslados) {//O(|traslados|log(|T|))
         for (Traslado t : traslados) {//O(|traslados|)
-            masRedituable.Agregar(t);//O(log|T|)   
+            masRedituable.Agregar(t);//O(log|T|) 
             masAntiguo.Agregar(t);//O(log|T|)       
         }
     }
