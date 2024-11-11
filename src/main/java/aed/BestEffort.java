@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class BestEffort {
     private Traslados traslados;
     private Ciudades ciudades; 
+    private int gananciaTotal;
+    private int trasladosDespachados;
 
     public BestEffort(int cantCiudades, Traslado[] traslados){ //complejidad O(|C| + |T|)
         int i = 0;
@@ -39,8 +41,11 @@ public class BestEffort {
                 Traslado max = traslados.masRedituable.Maximo(); //O(1)
                 traslados.masRedituable.SacarMaximo(); //O(log|T|)
                 nuevo_array[i]= max.id;
+                gananciaTotal = gananciaTotal + max.gananciaNeta;
+                trasladosDespachados++;
                 //tenemos que sacar el maximo a masAntiguo (lo saca solo?)
-                traslados.masAntiguo.cantidadNodos= traslados.masAntiguo.cantidadNodos-1;//O(log|T|)
+                int indice= max.Handles.get(1);//O(log|T|)
+                traslados.masAntiguo.eliminarEn(indice);
                 //modificamos las ganancias, perdidas, superavits de las ciudades despachadas EN LOS HEAPS
                 ciudades.ciudadesArray.get(max.destino).actualizarPerdida(max.gananciaNeta);//O(1)
                 ciudades.ciudadesArray.get(max.origen).actualizarGanancia(max.gananciaNeta);//O(1)
@@ -60,14 +65,18 @@ public class BestEffort {
         int[] nuevo_array = new int[n];  //O(1)
         for (int i=0; i<n; i++){ // O(n)
             if (i>traslados.masAntiguo.obtenerCantNodos()){ //O(1) 
-                return nuevo_array; //O(1)    
+                return nuevo_array; //O(1)   
+                
             } else{
                 //sacar el maximo y agregarlo al array
                 Traslado max =traslados.masAntiguo.Maximo(); //O(1)
                 traslados.masAntiguo.SacarMaximo(); //O(log|T|)
                 nuevo_array[i]= max.id;
+                gananciaTotal = gananciaTotal + max.gananciaNeta;
+                trasladosDespachados++;
                 //tenemos que sacar el maximo a masRedituables
-                traslados.masRedituable.cantidadNodos--;
+                int indice = max.Handles.get(0);
+                traslados.masRedituable.eliminarEn(indice);
                 //modificamos las ganancias, perdidas, superavits de las ciudades despachadas EN LOS HEAPS
                 ciudades.ciudadesArray.get(max.destino).actualizarPerdida(max.gananciaNeta);//O(1)
                 ciudades.ciudadesArray.get(max.origen).actualizarGanancia(max.gananciaNeta);//O(1)
@@ -98,8 +107,7 @@ public class BestEffort {
     }
 
     public int gananciaPromedioPorTraslado(){
-        // Implementar
-        return 0;
+        return gananciaTotal/trasladosDespachados;
     }
     
 }

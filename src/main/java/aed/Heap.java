@@ -10,13 +10,25 @@ public class Heap<T> {
     private Integer tipo;
 
     
-    public Heap(ArrayList<T> arr, Comparator<T> comp, int tipo) {
+    public Heap(ArrayList<T> arr, Comparator<T> comp, int tipo) { // O(n)
         cantidadNodos = arr.size();
         elementos = new ArrayList<T>(arr);
         comparador = comp;
         this.tipo = tipo;
         for (int i = cantidadNodos / 2 - 1; i >= 0; i--) {
             SiftDown(i);
+        }
+        // al realizar la construccion del heap de abajo hacia arriba,tiene una complejidad amortizada de O(n),
+        // y no O(n log n), ya que los nodos más cercanos a la raíz necesitan menos tiempo para reorganizarse
+
+        // Ahora recorremos todos los elementos para actualizar los handles
+        for (int i = 0; i < cantidadNodos; i++) { // O(n)
+            T Actual = elementos.get(i); //O(1)
+            if (Actual instanceof Traslado){
+                ((Traslado) Actual).Handles.set(tipo, i);//O(1)
+            } else {
+                ((Ciudad) Actual).Handle = i; //O(1)
+            }
         }
     }
 
@@ -67,10 +79,15 @@ public class Heap<T> {
 
     public T SacarMaximo() {
         T maximo = elementos.get(0);
-        elementos.set(0, elementos.get(cantidadNodos - 1));
-        elementos.remove(cantidadNodos - 1);
-        cantidadNodos = cantidadNodos -1;
-        SiftDown(0);
+        if (cantidadNodos==1){
+            elementos.remove(0);
+        }
+        else{ 
+            elementos.set(0, elementos.get(cantidadNodos - 1));
+            elementos.remove(cantidadNodos - 1);
+            cantidadNodos = cantidadNodos -1;
+            SiftDown(0);
+        }
         return maximo;
     }
 
@@ -94,7 +111,7 @@ public class Heap<T> {
         if (indiceMaximo != indice) {
             T Actual = elementos.get(indice);
             T ElemIndiceMax = elementos.get(indiceMaximo);
-            elementos.set(indice, elementos.get(indiceMaximo));
+            elementos.set(indice, ElemIndiceMax);
             elementos.set(indiceMaximo, Actual);
 
             if (Actual instanceof Traslado && ElemIndiceMax instanceof Traslado) {
