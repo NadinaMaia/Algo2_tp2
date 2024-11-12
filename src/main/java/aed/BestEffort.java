@@ -66,8 +66,9 @@ public class BestEffort {
 
     public int[] despacharMasAntiguos(int n){//O(n(log(|T|)+log(|C|)))
         int[] nuevo_array = new int[n];  //O(1)
+        int CantidadDeNodos = traslados.masAntiguo.obtenerCantNodos();
         for (int i=0; i<n; i++){ // O(n)
-            if (i>traslados.masAntiguo.obtenerCantNodos()){ //O(1) 
+            if (i>CantidadDeNodos){ //O(1) 
                 return nuevo_array; //O(1)   
                 
             } else{
