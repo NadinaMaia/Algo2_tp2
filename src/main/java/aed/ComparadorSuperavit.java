@@ -9,7 +9,7 @@ public class ComparadorSuperavit implements Comparator<Ciudad> {
             return Integer.compare(c1.id,c2.id);
         }
         else {
-            return Integer.compare(c1.superavit,c2.superavit);
+            return Integer.compare(c2.superavit,c1.superavit);
         }
     }
 }
