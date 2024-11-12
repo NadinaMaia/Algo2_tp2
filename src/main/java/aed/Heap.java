@@ -151,16 +151,13 @@ public class Heap<T> {
         }
         else {
             T elementoAmodificar = elementos.get(indice);
-            elementos.set(indice,elem);
             //no se si cuando en comparador en menor a 0 el primero es mas chico?
-            if (comparador.compare(elementoAmodificar, elem)< 0) {
-                SiftDown(indice);
-            }
+            SiftDown(indice);
             // Si el nuevo valor es menor, puede necesitar un SiftDown
-            else if (0 < comparador.compare(elementoAmodificar, elem)) {
-                SiftUp(indice);
+            
+            SiftUp(indice);
 
-            }
+            
         }
     }
 }
