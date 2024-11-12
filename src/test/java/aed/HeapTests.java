@@ -58,4 +58,3 @@ public class HeapTests {
 
         assertEquals(-1, h.Maximo());
     }
-}

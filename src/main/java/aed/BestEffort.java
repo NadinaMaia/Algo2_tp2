@@ -9,6 +9,8 @@ public class BestEffort {
     private int trasladosDespachados;
 
     public BestEffort(int cantCiudades, Traslado[] traslados){ //complejidad O(|C| + |T|)
+        int trasladosDespachados = 0;
+        int gananciaTotal = 0;
         int i = 0;
         int tamaño= traslados.length;
         ArrayList<Traslado> arr = new ArrayList<Traslado>(tamaño);
@@ -33,8 +35,9 @@ public class BestEffort {
 
     public int[] despacharMasRedituables(int n){ //O(n(log(|T|)+log(|C|)))
         int[] nuevo_array = new int[n]; //O(1)
+        int CantidadDeNodos = traslados.masRedituable.obtenerCantNodos();
         for (int i=0; i<n; i++){ // O(n)
-            if (i>traslados.masRedituable.obtenerCantNodos()){ //O(1) 
+            if (i>CantidadDeNodos){ //O(1) 
                 return nuevo_array; //O(1)    
             } else{
                 //sacar el maximo y agregarlo al array
