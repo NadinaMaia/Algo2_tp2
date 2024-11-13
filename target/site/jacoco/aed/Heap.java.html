@@ -1,72 +1,164 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Heap.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tp2</a> &gt; <a href="index.source.html" class="el_package">aed</a> &gt; <span class="el_source">Heap.java</span></div><h1>Heap.java</h1><pre class="source lang-java linenums">package aed;
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class Heap {
+public class Heap&lt;T&gt; {
 
-    private ArrayList&lt;Integer&gt; elementos;
-    private int cantidadNodos;
+    private ArrayList&lt;T&gt; elementos;
+    int cantidadNodos;
+    private Comparator&lt;T&gt; comparador; 
+    private Integer tipo;
 
-<span class="fc" id="L9">    public Heap() {</span>
-<span class="fc" id="L10">        elementos = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L11">        cantidadNodos = 0;</span>
-<span class="fc" id="L12">    }</span>
+    
+<span class="fc" id="L13">    public Heap(ArrayList&lt;T&gt; arr, Comparator&lt;T&gt; comp, int tipo) { // O(n)</span>
+<span class="fc" id="L14">        cantidadNodos = arr.size();</span>
+<span class="fc" id="L15">        elementos = new ArrayList&lt;T&gt;(arr);</span>
+<span class="fc" id="L16">        comparador = comp;</span>
+<span class="fc" id="L17">        this.tipo = tipo;</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        for (int i = cantidadNodos / 2 - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L19">            SiftDown(i);</span>
+        }
+        // al realizar la construccion del heap de abajo hacia arriba,tiene una complejidad amortizada de O(n),
+        // y no O(n log n), ya que los nodos más cercanos a la raíz necesitan menos tiempo para reorganizarse
+
+        // Ahora recorremos todos los elementos para actualizar los handles
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        for (int i = 0; i &lt; cantidadNodos; i++) { // O(n)</span>
+<span class="fc" id="L26">            T Actual = elementos.get(i); //O(1)</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">            if (Actual instanceof Traslado){</span>
+<span class="fc" id="L28">                ((Traslado) Actual).Handles.set(tipo, i);//O(1)</span>
+            } else {
+<span class="fc" id="L30">                ((Ciudad) Actual).Handle = i; //O(1)</span>
+            }
+        }
+<span class="fc" id="L33">    }</span>
 
     public boolean Vacio() {
-<span class="pc bpc" id="L15" title="1 of 2 branches missed.">        return (cantidadNodos == 0);</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        return (cantidadNodos == 0);</span>
     }
 
-    public int Maximo() {
-<span class="fc" id="L19">        return elementos.get(0);</span>
+    public T Maximo() { //O(1)
+<span class="fc" id="L40">        return elementos.get(0);</span>
         }
 
-    public void Agregar(int elem) {
-<span class="fc" id="L23">        elementos.add(elem);</span>
-<span class="fc" id="L24">        cantidadNodos = cantidadNodos + 1;</span>
-<span class="fc" id="L25">        SiftUp(cantidadNodos - 1);</span>
-<span class="fc" id="L26">    }</span>
+    public void Agregar(T elem) {
+<span class="fc" id="L44">        elementos.add(elem);</span>
+<span class="fc" id="L45">        cantidadNodos = cantidadNodos + 1;</span>
+<span class="fc" id="L46">        SiftUp(cantidadNodos - 1);</span>
+<span class="fc" id="L47">    }</span>
     
     private void SiftUp(int indiceActual){
-<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (indiceActual == 0 ) {</span>
-<span class="fc" id="L30">            return;</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (indiceActual == 0 ) {</span>
+<span class="fc" id="L51">            return;</span>
         }
-<span class="fc" id="L32">        int indicePadre = (indiceActual - 1) / 2;</span>
-<span class="fc bfc" id="L33" title="All 2 branches covered.">        if (elementos.get(indiceActual) &gt; elementos.get(indicePadre)) {</span>
-<span class="fc" id="L34">            int Actual = elementos.get(indiceActual);</span>
-<span class="fc" id="L35">            elementos.set(indiceActual, elementos.get(indicePadre));</span>
-<span class="fc" id="L36">            elementos.set(indicePadre, Actual);</span>
-            
-<span class="fc" id="L38">            SiftUp(indicePadre);</span>
-        }
-<span class="fc" id="L40">    }</span>
+<span class="fc" id="L53">        int indicePadre = (indiceActual - 1) / 2;</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (comparador.compare(elementos.get(indiceActual), elementos.get(indicePadre)) &gt; 0) {</span>
+<span class="fc" id="L55">            T Actual = elementos.get(indiceActual);</span>
+<span class="fc" id="L56">            T ElemIndicePadre = elementos.get(indicePadre);</span>
+<span class="fc" id="L57">            elementos.set(indiceActual, elementos.get(indicePadre));</span>
+<span class="fc" id="L58">            elementos.set(indicePadre, Actual);</span>
+<span class="pc bpc" id="L59" title="1 of 4 branches missed.">            if (Actual instanceof Traslado &amp;&amp; ElemIndicePadre instanceof Traslado) {</span>
+                // Caso de traslado
+<span class="fc" id="L61">                ((Traslado) Actual).Handles.set(tipo, indicePadre);</span>
+<span class="fc" id="L62">                ((Traslado) ElemIndicePadre).Handles.set(tipo, indiceActual);</span>
+            } else {
+<span class="fc" id="L64">                ((Ciudad) Actual).Handle = indicePadre;</span>
+<span class="fc" id="L65">                ((Ciudad) ElemIndicePadre).Handle = indiceActual;</span>
+            }
+<span class="fc" id="L67">            SiftUp(indicePadre);</span>
+<span class="fc" id="L68">        }</span>
 
-    public int SacarMaximo() {
-<span class="fc" id="L43">        int maximo = elementos.get(0);</span>
-<span class="fc" id="L44">        elementos.set(0, elementos.get(cantidadNodos - 1));</span>
-<span class="fc" id="L45">        elementos.remove(cantidadNodos - 1);</span>
-<span class="fc" id="L46">        cantidadNodos = cantidadNodos -1;</span>
-<span class="fc" id="L47">        SiftDown(0);</span>
-<span class="fc" id="L48">        return maximo;</span>
+        else {
+<span class="fc" id="L71">            T Actual = elementos.get(indiceActual);</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">            if (Actual instanceof Traslado){</span>
+<span class="fc" id="L73">                ((Traslado) Actual).Handles.set(tipo, indiceActual);</span>
+            } else {
+<span class="fc" id="L75">                ((Ciudad) Actual).Handle = indiceActual;</span>
+            }
+        }    
+<span class="fc" id="L78">    }</span>
+
+    public T SacarMaximo() {
+<span class="fc" id="L81">        T maximo = elementos.get(0);</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (cantidadNodos==1){</span>
+<span class="fc" id="L83">            elementos.remove(0);</span>
+        }
+        else{ 
+<span class="fc" id="L86">            elementos.set(0, elementos.get(cantidadNodos - 1));</span>
+<span class="fc" id="L87">            elementos.remove(cantidadNodos - 1);</span>
+<span class="fc" id="L88">            cantidadNodos = cantidadNodos -1;</span>
+<span class="fc" id="L89">            SiftDown(0);</span>
+        }
+<span class="fc" id="L91">        return maximo;</span>
     }
 
-    private void SiftDown(int indice){
-<span class="fc" id="L52">        int indiceHijoDer = 2 * indice + 1;</span>
-<span class="fc" id="L53">        int indiceHijoIzq = 2 * indice + 2;</span>
-<span class="fc" id="L54">        int indiceMaximo = indice;</span>
-        
-<span class="pc bpc" id="L56" title="1 of 4 branches missed.">        if (indiceHijoIzq &lt; cantidadNodos &amp;&amp; elementos.get(indiceHijoIzq) &gt; elementos.get(indiceMaximo)) {</span>
-<span class="fc" id="L57">            indiceMaximo = indiceHijoIzq;</span>
-        }
-        
-<span class="pc bpc" id="L60" title="1 of 4 branches missed.">        if (indiceHijoDer &lt; cantidadNodos &amp;&amp; elementos.get(indiceHijoDer) &gt; elementos.get(indiceMaximo)) {</span>
-<span class="fc" id="L61">            indiceMaximo = indiceHijoDer;</span>
+    public int obtenerCantNodos(){
+<span class="fc" id="L95">        return cantidadNodos;</span>
+    }
+
+    private void SiftDown(int indice) {
+<span class="fc" id="L99">        int indiceHijoDer = 2 * indice + 1;</span>
+<span class="fc" id="L100">        int indiceHijoIzq = 2 * indice + 2;</span>
+<span class="fc" id="L101">        int indiceMaximo = indice;</span>
+
+<span class="fc bfc" id="L103" title="All 4 branches covered.">        if (indiceHijoIzq &lt; cantidadNodos &amp;&amp; comparador.compare(elementos.get(indiceHijoIzq), elementos.get(indiceMaximo)) &gt; 0) {</span>
+<span class="fc" id="L104">            indiceMaximo = indiceHijoIzq;</span>
         }
 
-<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (indiceMaximo != indice) {</span>
-<span class="fc" id="L65">            int Actual = elementos.get(indice);</span>
-<span class="fc" id="L66">            elementos.set(indice, elementos.get(indiceMaximo));</span>
-<span class="fc" id="L67">            elementos.set(indiceMaximo, Actual);</span>
-<span class="fc" id="L68">            SiftDown(indiceMaximo);</span>
+<span class="fc bfc" id="L107" title="All 4 branches covered.">        if (indiceHijoDer &lt; cantidadNodos &amp;&amp; comparador.compare(elementos.get(indiceHijoDer), elementos.get(indiceMaximo)) &gt; 0) {</span>
+<span class="fc" id="L108">            indiceMaximo = indiceHijoDer;</span>
         }
-<span class="fc" id="L70">    }</span>
+
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        if (indiceMaximo != indice) {</span>
+<span class="fc" id="L112">            T Actual = elementos.get(indice);</span>
+<span class="fc" id="L113">            T ElemIndiceMax = elementos.get(indiceMaximo);</span>
+<span class="fc" id="L114">            elementos.set(indice, ElemIndiceMax);</span>
+<span class="fc" id="L115">            elementos.set(indiceMaximo, Actual);</span>
+
+<span class="pc bpc" id="L117" title="1 of 4 branches missed.">            if (Actual instanceof Traslado &amp;&amp; ElemIndiceMax instanceof Traslado) {</span>
+                // Caso de traslado
+<span class="fc" id="L119">                ((Traslado) Actual).Handles.set(tipo, indiceMaximo);</span>
+<span class="fc" id="L120">                ((Traslado) ElemIndiceMax).Handles.set(tipo, indice);</span>
+            } else {
+<span class="fc" id="L122">                ((Ciudad) Actual).Handle = indiceMaximo;</span>
+<span class="fc" id="L123">                ((Ciudad) ElemIndiceMax).Handle = indice;</span>
+            }
+<span class="fc" id="L125">            SiftDown(indiceMaximo);</span>
+<span class="fc" id="L126">        } else {</span>
+<span class="fc" id="L127">            T Actual = elementos.get(indice);</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">            if (Actual instanceof Traslado){</span>
+<span class="fc" id="L129">                ((Traslado) Actual).Handles.set(tipo, indice);</span>
+            } else {
+<span class="fc" id="L131">                ((Ciudad) Actual).Handle = indice;</span>
+            }
+        }
+<span class="fc" id="L134">    }</span>
+    public void eliminarEn (int indice){
+<span class="pc bpc" id="L136" title="2 of 4 branches missed.">        if (indice &lt; 0 || indice&gt;= cantidadNodos){</span>
+            
+        }
+        else {
+<span class="fc" id="L140">            T ultimoElemento= elementos.get(cantidadNodos-1);</span>
+<span class="fc" id="L141">            elementos.set(indice,ultimoElemento);</span>
+<span class="fc" id="L142">            SiftDown(indice);</span>
+<span class="fc" id="L143">            elementos.remove(cantidadNodos-1);</span>
+<span class="fc" id="L144">            cantidadNodos--;</span>
+        }
+<span class="fc" id="L146">    }</span>
+
+    public void modificarEn (int indice, T elem){
+<span class="pc bpc" id="L149" title="2 of 4 branches missed.">        if (indice &lt; 0 || indice&gt;= cantidadNodos){</span>
+<span class="nc" id="L150">            return;</span>
+        }
+        else {
+<span class="fc" id="L153">            T elementoAmodificar = elementos.get(indice);</span>
+            //no se si cuando en comparador en menor a 0 el primero es mas chico?
+<span class="fc" id="L155">            SiftDown(indice);</span>
+            // Si el nuevo valor es menor, puede necesitar un SiftDown
+            
+<span class="fc" id="L158">            SiftUp(indice);</span>
+
+            
+        }
+<span class="fc" id="L162">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

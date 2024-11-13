@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Ciudades.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tp2</a> &gt; <a href="index.source.html" class="el_package">aed</a> &gt; <span class="el_source">Ciudades.java</span></div><h1>Ciudades.java</h1><pre class="source lang-java linenums">package aed;
+
+import java.util.ArrayList;
+
+public class Ciudades {
+    ArrayList&lt;Ciudad&gt; ciudadesArray;
+    ArrayList&lt;Integer&gt; mayorGanancia;
+    ArrayList&lt;Integer&gt; mayorPerdida;
+    Heap&lt;Ciudad&gt; mayorSuperavit;
+    int tamañoG;
+    int tamañoP;
+    int gananciaMax;
+    int perdidaMax;
+
+<span class="fc" id="L15">    public Ciudades(ArrayList&lt;Ciudad&gt; arr) {</span>
+<span class="fc" id="L16">        mayorGanancia = new ArrayList&lt;Integer&gt;(arr.size());</span>
+<span class="fc" id="L17">        mayorPerdida = new ArrayList&lt;Integer&gt;(arr.size());</span>
+<span class="fc" id="L18">        tamañoG=0;</span>
+<span class="fc" id="L19">        tamañoP=0;</span>
+<span class="fc" id="L20">        mayorSuperavit = new Heap&lt;&gt;(arr, new ComparadorSuperavit(),0);</span>
+<span class="fc" id="L21">        ciudadesArray = new ArrayList&lt;Ciudad&gt; (arr);</span>
+<span class="fc" id="L22">        gananciaMax = 0;</span>
+<span class="fc" id="L23">        perdidaMax=0;</span>
+<span class="fc" id="L24">    }</span>
+
+    public void actualizarMayorGanancia(Ciudad ciudadOrigen){
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        if (tamañoG==0){</span>
+<span class="fc" id="L28">                    mayorGanancia.add(ciudadOrigen.id);</span>
+<span class="fc" id="L29">                    tamañoG ++;</span>
+<span class="fc" id="L30">                    gananciaMax= ciudadOrigen.ganancia;</span>
+                }
+                else{
+                    
+<span class="fc bfc" id="L34" title="All 2 branches covered.">                    if (ciudadOrigen.ganancia == gananciaMax){</span>
+<span class="fc" id="L35">                        mayorGanancia.add(ciudadOrigen.id);</span>
+<span class="fc" id="L36">                        tamañoG ++;</span>
+                    }
+<span class="fc bfc" id="L38" title="All 2 branches covered.">                    else if (ciudadOrigen.ganancia&gt; gananciaMax){</span>
+<span class="fc" id="L39">                        mayorGanancia = new ArrayList&lt;Integer&gt;(ciudadesArray.size());</span>
+<span class="fc" id="L40">                        mayorGanancia.add(ciudadOrigen.id);</span>
+<span class="fc" id="L41">                        tamañoG = 1;</span>
+<span class="fc" id="L42">                        gananciaMax= ciudadOrigen.ganancia;</span>
+
+                    }
+
+                }
+<span class="fc" id="L47">    } </span>
+
+    public void actualizarMayorPerdida(Ciudad ciudadDestino){
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (tamañoP==0){</span>
+<span class="fc" id="L51">                    mayorPerdida.add(ciudadDestino.id);</span>
+<span class="fc" id="L52">                    tamañoP ++;</span>
+<span class="fc" id="L53">                    perdidaMax= ciudadDestino.perdida;</span>
+                }
+                else{
+<span class="fc bfc" id="L56" title="All 2 branches covered.">                    if (ciudadDestino.perdida == perdidaMax){</span>
+<span class="fc" id="L57">                        mayorPerdida.add(ciudadDestino.id);</span>
+<span class="fc" id="L58">                        tamañoP ++;</span>
+
+                    }
+<span class="fc bfc" id="L61" title="All 2 branches covered.">                    else if (ciudadDestino.perdida &gt; perdidaMax){</span>
+<span class="fc" id="L62">                        mayorPerdida = new ArrayList&lt;Integer&gt;(ciudadesArray.size());</span>
+<span class="fc" id="L63">                        mayorPerdida.add(ciudadDestino.id);</span>
+<span class="fc" id="L64">                        tamañoP = 1;</span>
+<span class="fc" id="L65">                        perdidaMax= ciudadDestino.perdida;</span>
+
+                    }
+
+                }
+<span class="fc" id="L70">    }</span>
+    public void actualizarHeap(Ciudad c){
+<span class="fc" id="L72">        int indice = c.Handle;</span>
+<span class="fc" id="L73">        mayorSuperavit.modificarEn(indice, c);</span>
+
+<span class="fc" id="L75">    } </span>
+    public ArrayList&lt;Integer&gt; obtenerMayorGanancia(){ //O(1)
+<span class="nc" id="L77">        return mayorGanancia;</span>
+    }
+
+    public ArrayList&lt;Integer&gt; obtenerMayorPerdida(){ //O(1)
+<span class="nc" id="L81">        return mayorPerdida;</span>
+    }
+
+    public Heap&lt;Ciudad&gt; obtenerMayorSuperavit(){ //O(1)
+<span class="fc" id="L85">        return mayorSuperavit;</span>
+    }
+
+    public ArrayList&lt;Ciudad&gt; obtenerCiudades(){ //O(1)
+<span class="nc" id="L89">        return ciudadesArray;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

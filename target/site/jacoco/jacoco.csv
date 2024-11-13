@@ -1,4 +1,10 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-tp2,aed,BestEffort,2,14,0,0,1,8,1,7,1,7
-tp2,aed,Traslado,0,18,0,0,0,7,0,1,0,1
-tp2,aed,Heap,1,215,3,13,0,38,3,12,0,7
+tp2,aed,Traslados,6,48,0,2,2,8,2,3,2,2
+tp2,aed,Ciudad,0,46,0,0,0,13,0,3,0,3
+tp2,aed,ComparadorSuperavit,0,20,0,2,0,4,0,3,0,2
+tp2,aed,Ciudades,9,193,0,12,3,40,3,11,3,5
+tp2,aed,ComparadorMasAntiguo,0,11,0,0,0,2,0,2,0,2
+tp2,aed,ComparadorGananciaNeta,0,20,0,2,0,4,0,3,0,2
+tp2,aed,BestEffort,4,340,2,14,2,69,2,14,0,8
+tp2,aed,Traslado,0,36,0,0,0,10,0,1,0,1
+tp2,aed,Heap,9,438,8,36,2,83,8,24,1,9
