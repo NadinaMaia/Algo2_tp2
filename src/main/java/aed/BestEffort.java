@@ -52,19 +52,28 @@ public class BestEffort {
                 //tenemos que sacar el maximo a masAntiguo (lo saca solo?)
                 int indice= max.Handles.get(1);//O(log|T|)
                 traslados.masAntiguo.eliminarEn(indice);
-                //modificamos las ganancias, perdidas, superavits de las ciudades despachadas EN LOS HEAPS
-                ciudades.ciudadesArray.get(max.destino).actualizarPerdida(max.gananciaNeta);//O(1)
-                ciudades.ciudadesArray.get(max.origen).actualizarGanancia(max.gananciaNeta);//O(1)
-                Ciudad ciudadOrigen = ciudades.ciudadesArray.get(max.origen);
-                Ciudad ciudadDestino =  ciudades.ciudadesArray.get(max.destino);
-                ciudades.actualizarMayorGanancia(ciudadOrigen); //O(1)
-                ciudades.actualizarMayorPerdida(ciudadDestino);//O(1)
-                ciudades.actualizarHeap(ciudadOrigen); // O(log(|C|)
-                ciudades.actualizarHeap(ciudadDestino);//O(log(|C|)
+                //modificamos las ganancias, perdidas, superavits de las ciudades despachadas 
+                ActualizarCiudades(max);//O(log(|C|)
 
             }
-        } //COMPLEJIDAD HASTA AHORA //O(n(log|T|))
+        }  //O(n(log|T|) + O(log(|C|))
         return nuevo_array;
+    }
+
+    private void ActualizarCiudades (Traslado max){
+        // actualizamos el arrayCiudades
+
+        ciudades.ciudadesArray.get(max.destino).actualizarPerdida(max.gananciaNeta);//O(1)
+        ciudades.ciudadesArray.get(max.origen).actualizarGanancia(max.gananciaNeta);//O(1)
+        // actualizamos el las listas de mayor ganancia y perdida 
+        Ciudad ciudadOrigen = ciudades.ciudadesArray.get(max.origen); //O(1)
+        Ciudad ciudadDestino =  ciudades.ciudadesArray.get(max.destino); //O(1)
+        ciudades.actualizarMayorGanancia(ciudadOrigen); //O(1)
+        ciudades.actualizarMayorPerdida(ciudadDestino);//O(1)
+
+        // actualizamos el heap de superavit
+        ciudades.actualizarHeap(ciudadOrigen); // O(log(|C|)
+        ciudades.actualizarHeap(ciudadDestino);//O(log(|C|)
     }
 
     public int[] despacharMasAntiguos(int n){//O(n(log(|T|)+log(|C|)))
@@ -85,17 +94,10 @@ public class BestEffort {
                 gananciaTotal = gananciaTotal + max.gananciaNeta;
                 trasladosDespachados++;
                 //tenemos que sacar el maximo a masRedituables
-                int indice = max.Handles.get(0);
-                traslados.masRedituable.eliminarEn(indice);
+                int indice = max.Handles.get(0); //O(1)
+                traslados.masRedituable.eliminarEn(indice); // O(log|T|)
                 //modificamos las ganancias, perdidas, superavits de las ciudades despachadas EN LOS HEAPS
-                ciudades.ciudadesArray.get(max.destino).actualizarPerdida(max.gananciaNeta);//O(1)
-                ciudades.ciudadesArray.get(max.origen).actualizarGanancia(max.gananciaNeta);//O(1)
-                Ciudad ciudadOrigen = ciudades.ciudadesArray.get(max.origen);
-                Ciudad ciudadDestino =  ciudades.ciudadesArray.get(max.destino);
-                ciudades.actualizarMayorGanancia(ciudadOrigen); //O(1)
-                ciudades.actualizarMayorPerdida(ciudadDestino);//O(1)
-                ciudades.actualizarHeap(ciudadOrigen); // O(log(|C|)
-                ciudades.actualizarHeap(ciudadDestino);//O(log(|C|)
+                ActualizarCiudades(max); // O(log |C|);
 
             }
         } //O(n(log|T|+log(|C|))

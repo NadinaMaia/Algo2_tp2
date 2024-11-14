@@ -81,6 +81,7 @@ public class Heap<T> {
         T maximo = elementos.get(0);
         if (cantidadNodos==1){
             elementos.remove(0);
+            cantidadNodos--;
         }
         else{ 
             elementos.set(0, elementos.get(cantidadNodos - 1));
@@ -150,8 +151,9 @@ public class Heap<T> {
             return;
         }
         else {
-            T elementoAmodificar = elementos.get(indice);
-            //no se si cuando en comparador en menor a 0 el primero es mas chico?
+            // Reemplazar el elemento en la posición indicada con el nuevo valor
+            elementos.set(indice, elem);
+
             SiftDown(indice);
             // Si el nuevo valor es menor, puede necesitar un SiftDown
             
@@ -159,5 +161,9 @@ public class Heap<T> {
 
             
         }
+    }
+
+    public ArrayList<T> devolverHeapCoArrayList(){
+        return elementos;
     }
 }
