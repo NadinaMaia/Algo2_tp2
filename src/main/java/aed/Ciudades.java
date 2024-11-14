@@ -7,85 +7,86 @@ public class Ciudades {
     ArrayList<Integer> mayorGanancia;
     ArrayList<Integer> mayorPerdida;
     Heap<Ciudad> mayorSuperavit;
-    int tamañoG;
-    int tamañoP;
+    int cantidadCiudadesGananciaMax;
+    int cantidadCiudadesPerdidaMax;
     int gananciaMax;
     int perdidaMax;
 
-    public Ciudades(ArrayList<Ciudad> arr) {
-        mayorGanancia = new ArrayList<Integer>(arr.size());
-        mayorPerdida = new ArrayList<Integer>(arr.size());
-        tamañoG=0;
-        tamañoP=0;
-        mayorSuperavit = new Heap<>(arr, new ComparadorSuperavit(),0);
-        ciudadesArray = new ArrayList<Ciudad> (arr);
-        gananciaMax = 0;
-        perdidaMax=0;
+    public Ciudades(ArrayList<Ciudad> arr) { //O(C)
+        mayorGanancia = new ArrayList<Integer>(arr.size()); //O(1)
+        mayorPerdida = new ArrayList<Integer>(arr.size()); //O(1)
+        cantidadCiudadesGananciaMax=0; //O(1)
+        cantidadCiudadesPerdidaMax=0; //O(1)
+        mayorSuperavit = new Heap<>(arr, new ComparadorSuperavit(),0); //O(C)
+        ciudadesArray = new ArrayList<Ciudad> (arr); //O(1)
+        gananciaMax = 0; //O(1)
+        perdidaMax = 0; //O(1)
     }
 
-    public void actualizarMayorGanancia(Ciudad ciudadOrigen){
-        if (tamañoG==0){
-                    mayorGanancia.add(ciudadOrigen.id);
-                    tamañoG ++;
-                    gananciaMax= ciudadOrigen.ganancia;
-                }
-                else{
-                    
-                    if (ciudadOrigen.ganancia == gananciaMax){
-                        mayorGanancia.add(ciudadOrigen.id);
-                        tamañoG ++;
-                    }
-                    else if (ciudadOrigen.ganancia> gananciaMax){
-                        mayorGanancia = new ArrayList<Integer>(ciudadesArray.size());
-                        mayorGanancia.add(ciudadOrigen.id);
-                        tamañoG = 1;
-                        gananciaMax= ciudadOrigen.ganancia;
+    public void actualizarMayorGanancia(Ciudad ciudadOrigen, int GananciaNeta){ // Complejidad O(1)
+        ciudadOrigen.actualizarGanancia(GananciaNeta); //O(1)
+        if (cantidadCiudadesGananciaMax==0){ //O(1)
+            mayorGanancia.add(ciudadOrigen.id);
+            cantidadCiudadesGananciaMax ++;
+            gananciaMax= ciudadOrigen.ganancia;
+        }
 
-                    }
+        else{ 
+            if (ciudadOrigen.ganancia == gananciaMax){ //O(1)
+            mayorGanancia.add(ciudadOrigen.id);
+            cantidadCiudadesGananciaMax ++;
+            }
 
-                }
+            else if (ciudadOrigen.ganancia> gananciaMax){ //O(1)
+                mayorGanancia = new ArrayList<Integer>(ciudadesArray.size());
+                mayorGanancia.add(ciudadOrigen.id);
+                cantidadCiudadesGananciaMax = 1;
+                gananciaMax= ciudadOrigen.ganancia;
+            }
+        }
     } 
 
-    public void actualizarMayorPerdida(Ciudad ciudadDestino){
-        if (tamañoP==0){
+    public void actualizarMayorPerdida(Ciudad ciudadDestino, int GananciaNeta){ // Complejidad O(1)
+        ciudadDestino.actualizarPerdida(GananciaNeta); //O(1)
+        if (cantidadCiudadesPerdidaMax==0){ //O(1)
                     mayorPerdida.add(ciudadDestino.id);
-                    tamañoP ++;
+                    cantidadCiudadesPerdidaMax ++;
                     perdidaMax= ciudadDestino.perdida;
-                }
-                else{
-                    if (ciudadDestino.perdida == perdidaMax){
-                        mayorPerdida.add(ciudadDestino.id);
-                        tamañoP ++;
+        }
+                
+        else{ //O(1)
+            if (ciudadDestino.perdida == perdidaMax){ //O(1)
+                mayorPerdida.add(ciudadDestino.id);
+                cantidadCiudadesPerdidaMax ++;
+            }
 
-                    }
-                    else if (ciudadDestino.perdida > perdidaMax){
-                        mayorPerdida = new ArrayList<Integer>(ciudadesArray.size());
-                        mayorPerdida.add(ciudadDestino.id);
-                        tamañoP = 1;
-                        perdidaMax= ciudadDestino.perdida;
-
-                    }
-
-                }
+            else if (ciudadDestino.perdida > perdidaMax){ //O(1)
+                mayorPerdida = new ArrayList<Integer>(ciudadesArray.size());
+                mayorPerdida.add(ciudadDestino.id);
+                cantidadCiudadesPerdidaMax = 1;
+                perdidaMax= ciudadDestino.perdida;
+            }
+        }
     }
-    public void actualizarHeap(Ciudad c){
-        int indice = c.Handle;
-        mayorSuperavit.modificarEn(indice, c);
 
+    public void actualizarHeap(Ciudad c){  // Complejidad O(log n)
+        int indice = c.Handle; //O(1)
+        mayorSuperavit.modificarEn(indice, c); //O(log n)
     } 
-    public ArrayList<Integer> obtenerMayorGanancia(){ //O(1)
+
+    public ArrayList<Integer> obtenerMayorGanancia(){ // Complejidad O(1)
         return mayorGanancia;
     }
 
-    public ArrayList<Integer> obtenerMayorPerdida(){ //O(1)
+    public ArrayList<Integer> obtenerMayorPerdida(){ // Complejidad O(1)
         return mayorPerdida;
     }
 
-    public Heap<Ciudad> obtenerMayorSuperavit(){ //O(1)
+    public Heap<Ciudad> obtenerMayorSuperavit(){ // Complejidad O(1)
         return mayorSuperavit;
     }
 
-    public ArrayList<Ciudad> obtenerCiudades(){ //O(1)
+    public ArrayList<Ciudad> obtenerCiudades(){ // Complejidad O(1)
         return ciudadesArray;
     }
 }

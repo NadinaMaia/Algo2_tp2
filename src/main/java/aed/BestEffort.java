@@ -8,19 +8,19 @@ public class BestEffort {
     private int gananciaTotal;
     private int trasladosDespachados;
 
-    public BestEffort(int cantCiudades, Traslado[] traslados){ //complejidad O(|C| + |T|)
-        this.trasladosDespachados = 0;
-        this.gananciaTotal = 0;
-        int i = 0;
-        int tamaño= traslados.length;
-        ArrayList<Traslado> arr = new ArrayList<Traslado>(tamaño);
-        while (i < traslados.length){ //complejidad O(|T|)
+    public BestEffort(int cantCiudades, Traslado[] traslados){ //Complejidad O(|C| + |T|)
+        this.trasladosDespachados = 0; //O(1)
+        this.gananciaTotal = 0; //O(1)
+        int i = 0; //O(1)
+        int tamaño= traslados.length; //O(1)
+        ArrayList<Traslado> arr = new ArrayList<Traslado>(tamaño); //O(1)
+        while (i < traslados.length){ // O(|T|)
             arr.add( traslados[i]);
             i++;
         }
-        this.traslados = new Traslados(arr); //complejidad O(|T|)
-        int j = 0; 
-        ArrayList<Ciudad> arrCiudades = new ArrayList<Ciudad>(cantCiudades);
+        this.traslados = new Traslados(arr); // O(|T|)
+        int j = 0; //O(1)
+        ArrayList<Ciudad> arrCiudades = new ArrayList<Ciudad>(cantCiudades); //O(1)
         while(j < cantCiudades){//complejidad O(|C|)
             Ciudad c = new Ciudad(j);
             arrCiudades.add(c);
@@ -29,14 +29,14 @@ public class BestEffort {
         this.ciudades = new Ciudades(arrCiudades);//complejidad O(|C|)
     }
 
-    public void registrarTraslados(Traslado[] traslados){ //O(|traslados|log(|T|))
+    public void registrarTraslados(Traslado[] traslados){ // Complejidad O(|traslados|log(|T|))
         this.traslados.registrarTraslados(traslados);//O(|traslados|log(|T|))
     }
 
     public int[] despacharMasRedituables(int n){ //O(n(log(|T|)+log(|C|)))
         int[] nuevo_array = new int[n]; //O(1)
-        int CantidadDeNodos = traslados.masRedituable.obtenerCantNodos();
-        if (CantidadDeNodos ==0){
+        int CantidadDeNodos = traslados.masRedituable.obtenerCantNodos(); //O(1)
+        if (CantidadDeNodos == 0){ //O(1)
             return nuevo_array;
         }
         for (int i=0; i<n; i++){ // O(n)
@@ -46,9 +46,9 @@ public class BestEffort {
                 //sacar el maximo y agregarlo al array
                 Traslado max = traslados.masRedituable.Maximo(); //O(1)
                 traslados.masRedituable.SacarMaximo(); //O(log|T|)
-                nuevo_array[i]= max.id;
-                gananciaTotal = gananciaTotal + max.gananciaNeta;
-                trasladosDespachados++;
+                nuevo_array[i]= max.id; //O(1)
+                gananciaTotal = gananciaTotal + max.gananciaNeta; //O(1)
+                trasladosDespachados++; //O(1)
                 //tenemos que sacar el maximo a masAntiguo (lo saca solo?)
                 int indice= max.Handles.get(1);//O(log|T|)
                 traslados.masAntiguo.eliminarEn(indice);
@@ -62,14 +62,11 @@ public class BestEffort {
 
     private void ActualizarCiudades (Traslado max){
         // actualizamos el arrayCiudades
-
-        ciudades.ciudadesArray.get(max.destino).actualizarPerdida(max.gananciaNeta);//O(1)
-        ciudades.ciudadesArray.get(max.origen).actualizarGanancia(max.gananciaNeta);//O(1)
-        // actualizamos el las listas de mayor ganancia y perdida 
         Ciudad ciudadOrigen = ciudades.ciudadesArray.get(max.origen); //O(1)
         Ciudad ciudadDestino =  ciudades.ciudadesArray.get(max.destino); //O(1)
-        ciudades.actualizarMayorGanancia(ciudadOrigen); //O(1)
-        ciudades.actualizarMayorPerdida(ciudadDestino);//O(1)
+
+        ciudades.actualizarMayorGanancia(ciudadOrigen, max.gananciaNeta); //O(1)
+        ciudades.actualizarMayorPerdida(ciudadDestino, max.gananciaNeta);//O(1)
 
         // actualizamos el heap de superavit
         ciudades.actualizarHeap(ciudadOrigen); // O(log(|C|)
@@ -109,13 +106,13 @@ public class BestEffort {
     }
 
     public ArrayList<Integer> ciudadesConMayorGanancia(){
-        return new ArrayList<Integer>(ciudades.mayorGanancia.subList(0, ciudades.tamañoG));
+        return new ArrayList<Integer>(ciudades.mayorGanancia.subList(0, ciudades.cantidadCiudadesGananciaMax));
     }
 
 
 
     public ArrayList<Integer> ciudadesConMayorPerdida(){
-        return new ArrayList<Integer>(ciudades.mayorPerdida.subList(0, ciudades.tamañoP));
+        return new ArrayList<Integer>(ciudades.mayorPerdida.subList(0, ciudades.cantidadCiudadesPerdidaMax));
     }
 
     public int gananciaPromedioPorTraslado(){

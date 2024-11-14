@@ -11,7 +11,7 @@ public class Traslado {
     int timestamp;
     ArrayList<Integer> Handles;
 
-    public Traslado(int id, int origen, int destino, int gananciaNeta, int timestamp){
+    public Traslado(int id, int origen, int destino, int gananciaNeta, int timestamp){ // Complejidad O(1)
         this.id = id;
         this.origen = origen;
         this.destino = destino;

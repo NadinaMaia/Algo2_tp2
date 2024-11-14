@@ -6,12 +6,12 @@ public class Traslados {
      Heap<Traslado> masRedituable;   
      Heap<Traslado> masAntiguo;      
 
-    public Traslados(ArrayList<Traslado> infoTraslados) { 
+    public Traslados(ArrayList<Traslado> infoTraslados) {  // Complejidad O(T) 
         masRedituable = new Heap<>(infoTraslados, new ComparadorGananciaNeta(),0);
         masAntiguo = new Heap<>(infoTraslados, new ComparadorMasAntiguo(),1);
     }
 
-    public void registrarTraslados(Traslado[] traslados) {//O(|traslados|log(|T|))
+    public void registrarTraslados(Traslado[] traslados) {// Complejidad O(|traslados|log(|T|))
         for (Traslado t : traslados) {//O(|traslados|)
             masRedituable.Agregar(t);//O(log|T|) 
             masAntiguo.Agregar(t);//O(log|T|)       

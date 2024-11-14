@@ -1,9 +1,11 @@
 package aed;
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
 
 public class CiudadesTests {
     
@@ -48,9 +50,8 @@ public class CiudadesTests {
 
         // Verificar que se actualiza correctamente la lista de mayor ganancia
         Ciudad ciudadNueva = new Ciudad(4);
-        ciudadNueva.actualizarGanancia(500);
 
-        ciudades.actualizarMayorGanancia(ciudadNueva);
+        ciudades.actualizarMayorGanancia(ciudadNueva, 500);
         
         // El id de la ciudad con mayor ganancia debería ser 4
         ArrayList<Integer> mayorGanancia = ciudades.obtenerMayorGanancia();
@@ -59,8 +60,7 @@ public class CiudadesTests {
         
         // Verificar que la ciudad con ganancia de 250 no sobrescribe la ciudad con ganancia 500
         ciudadNueva = new Ciudad(5 );
-        ciudadNueva.actualizarGanancia(250);
-        ciudades.actualizarMayorGanancia(ciudadNueva);
+        ciudades.actualizarMayorGanancia(ciudadNueva, 250);
         mayorGanancia = ciudades.obtenerMayorGanancia();
         assertEquals(1, mayorGanancia.size());  // Debe seguir siendo solo una ciudad
         assertTrue(mayorGanancia.contains(4));  // Seguimos con la ciudad id 4
@@ -82,8 +82,7 @@ public class CiudadesTests {
         ciudades = new Ciudades(ciudadesList);
         // Verificar que se actualiza correctamente la lista de mayor perdida
         Ciudad ciudadNueva = new Ciudad(6);
-        ciudadNueva.actualizarPerdida(250);
-        ciudades.actualizarMayorPerdida(ciudadNueva);
+        ciudades.actualizarMayorPerdida(ciudadNueva, 250);
 
         // El id de la ciudad con mayor perdida debería ser 6
         ArrayList<Integer> mayorPerdida = ciudades.obtenerMayorPerdida();
@@ -92,9 +91,7 @@ public class CiudadesTests {
 
         // Verificar que una ciudad con pérdida mayor a 250 sobrescribe la anterior
         ciudadNueva = new Ciudad(7);
-        ciudadNueva.actualizarPerdida(300);
-
-        ciudades.actualizarMayorPerdida(ciudadNueva);
+        ciudades.actualizarMayorPerdida(ciudadNueva, 300);
         mayorPerdida = ciudades.obtenerMayorPerdida();
         assertEquals(1, mayorPerdida.size());  // Solo una ciudad debe estar presente
         assertTrue(mayorPerdida.contains(7));  // La ciudad con mayor pérdida tiene id 7
@@ -157,13 +154,9 @@ public class CiudadesTests {
         Ciudad ciudadParaActualizar = ciudades.ciudadesArray.get(3);
         Ciudad ciudadParaActualizar2 = ciudades.ciudadesArray.get(2);
         Ciudad ciudadParaActualizar3 = ciudades.ciudadesArray.get(5);
-        ciudadParaActualizar.actualizarGanancia(200);  // actualizamos las ganancias
-        ciudadParaActualizar2.actualizarGanancia(300);
-        ciudadParaActualizar3.actualizarGanancia(500);
-
-        ciudades.actualizarMayorGanancia(ciudadParaActualizar);
-        ciudades.actualizarMayorGanancia(ciudadParaActualizar2);
-        ciudades.actualizarMayorGanancia(ciudadParaActualizar3);
+        ciudades.actualizarMayorGanancia(ciudadParaActualizar, 200);
+        ciudades.actualizarMayorGanancia(ciudadParaActualizar2, 300);
+        ciudades.actualizarMayorGanancia(ciudadParaActualizar3, 500);
 
         ArrayList<Integer> CiudadesmayorG=  ciudades.mayorGanancia;
         int maxG= ciudades.gananciaMax;
@@ -193,12 +186,9 @@ public class CiudadesTests {
         Ciudad ciudadParaActualizar = ciudades.ciudadesArray.get(3);
         Ciudad ciudadParaActualizar2 = ciudades.ciudadesArray.get(2);
         Ciudad ciudadParaActualizar3 = ciudades.ciudadesArray.get(5);
-        ciudadParaActualizar.actualizarPerdida(300);
-        ciudadParaActualizar2.actualizarPerdida(35);
-        ciudadParaActualizar3.actualizarPerdida(200);
-        ciudades.actualizarMayorPerdida(ciudadParaActualizar);
-        ciudades.actualizarMayorPerdida(ciudadParaActualizar2);
-        ciudades.actualizarMayorPerdida(ciudadParaActualizar3);
+        ciudades.actualizarMayorPerdida(ciudadParaActualizar, 300);
+        ciudades.actualizarMayorPerdida(ciudadParaActualizar2, 35);
+        ciudades.actualizarMayorPerdida(ciudadParaActualizar3, 200);
         ArrayList<Integer> CiudadesmayorP=  ciudades.obtenerMayorPerdida();
         int maxG= ciudades.perdidaMax;
         assertEquals(1, CiudadesmayorP.size());
