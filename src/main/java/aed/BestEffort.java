@@ -43,7 +43,8 @@ public class BestEffort {
 
         if( n > CantidadDeNodos){
             return despacharMasRedituables(CantidadDeNodos);
-        } else{
+        } 
+        else{
             nuevo_array = new int[n];
             for (int i=0; i<n; i++){ // O(n) 
                 //sacar el maximo y agregarlo al array
@@ -61,20 +62,6 @@ public class BestEffort {
             }  //O(n(log|T|) + O(log(|C|))
         return nuevo_array;
     }
-
-    private void ActualizarCiudades (Traslado max){
-        // actualizamos el arrayCiudades
-        Ciudad ciudadOrigen = ciudades.ciudadesArray.get(max.origen); //O(1)
-        Ciudad ciudadDestino =  ciudades.ciudadesArray.get(max.destino); //O(1)
-
-        ciudades.actualizarMayorGanancia(ciudadOrigen, max.gananciaNeta); //O(1)
-        ciudades.actualizarMayorPerdida(ciudadDestino, max.gananciaNeta);//O(1)
-
-        // actualizamos el heap de superavit
-        ciudades.actualizarHeap(ciudadOrigen); // O(log(|C|)
-        ciudades.actualizarHeap(ciudadDestino);//O(log(|C|)
-    }
-
     public int[] despacharMasAntiguos(int n){//O(n(log(|T|)+log(|C|)))
         int[] nuevo_array; //O(1)
         int CantidadDeNodos = traslados.masAntiguo.obtenerCantNodos(); //O(1)
@@ -103,6 +90,20 @@ public class BestEffort {
         } //O(n(log|T|+log(|C|))
         return nuevo_array;
     }
+
+    private void ActualizarCiudades (Traslado max){
+        // actualizamos el arrayCiudades
+        Ciudad ciudadOrigen = ciudades.ciudadesArray.get(max.origen); //O(1)
+        Ciudad ciudadDestino =  ciudades.ciudadesArray.get(max.destino); //O(1)
+
+        ciudades.actualizarMayorGanancia(ciudadOrigen, max.gananciaNeta); //O(1)
+        ciudades.actualizarMayorPerdida(ciudadDestino, max.gananciaNeta);//O(1)
+
+        // actualizamos el heap de superavit
+        ciudades.actualizarHeap(ciudadOrigen); // O(log(|C|)
+        ciudades.actualizarHeap(ciudadDestino);//O(log(|C|)
+    }
+
 
     public int ciudadConMayorSuperavit(){ //O(1) 
         return ciudades.obtenerMayorSuperavit().Maximo().id; //O(1)
