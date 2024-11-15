@@ -34,15 +34,18 @@ public class BestEffort {
     }
 
     public int[] despacharMasRedituables(int n){ //O(n(log(|T|)+log(|C|)))
-        int[] nuevo_array = new int[n]; //O(1)
+        int[] nuevo_array; //O(1)
         int CantidadDeNodos = traslados.masRedituable.obtenerCantNodos(); //O(1)
-        if (CantidadDeNodos == 0){ //O(1)
-            return nuevo_array;
+
+        if (n==0 || CantidadDeNodos==0){
+            return nuevo_array = new int[0];
         }
-        for (int i=0; i<n; i++){ // O(n)
-            if (i>CantidadDeNodos){ //O(1) 
-                return nuevo_array; //O(1)    
-            } else{
+
+        if( n > CantidadDeNodos){
+            return despacharMasRedituables(CantidadDeNodos);
+        } else{
+            nuevo_array = new int[n];
+            for (int i=0; i<n; i++){ // O(n) 
                 //sacar el maximo y agregarlo al array
                 Traslado max = traslados.masRedituable.Maximo(); //O(1)
                 traslados.masRedituable.SacarMaximo(); //O(log|T|)
@@ -54,9 +57,8 @@ public class BestEffort {
                 traslados.masAntiguo.eliminarEn(indice);
                 //modificamos las ganancias, perdidas, superavits de las ciudades despachadas 
                 ActualizarCiudades(max);//O(log(|C|)
-
-            }
-        }  //O(n(log|T|) + O(log(|C|))
+                }
+            }  //O(n(log|T|) + O(log(|C|))
         return nuevo_array;
     }
 
@@ -74,16 +76,18 @@ public class BestEffort {
     }
 
     public int[] despacharMasAntiguos(int n){//O(n(log(|T|)+log(|C|)))
-        int[] nuevo_array = new int[n];  //O(1)
-        int CantidadDeNodos = traslados.masAntiguo.obtenerCantNodos();
-        if (CantidadDeNodos ==0){
-            return nuevo_array;
+        int[] nuevo_array; //O(1)
+        int CantidadDeNodos = traslados.masAntiguo.obtenerCantNodos(); //O(1)
+
+        if (n==0 || CantidadDeNodos==0){
+            return nuevo_array = new int[0];
         }
-        for (int i=0; i<n; i++){ // O(n)
-            if (i>CantidadDeNodos){ //O(1) 
-                return nuevo_array; //O(1)   
-                
-            } else{
+
+        if( n > CantidadDeNodos){
+            return despacharMasAntiguos(CantidadDeNodos);
+        } else {
+            nuevo_array = new int[n];
+            for (int i=0; i<n; i++){ // O(n) 
                 //sacar el maximo y agregarlo al array
                 Traslado max =traslados.masAntiguo.Maximo(); //O(1)
                 traslados.masAntiguo.SacarMaximo(); //O(log|T|)
@@ -95,7 +99,6 @@ public class BestEffort {
                 traslados.masRedituable.eliminarEn(indice); // O(log|T|)
                 //modificamos las ganancias, perdidas, superavits de las ciudades despachadas EN LOS HEAPS
                 ActualizarCiudades(max); // O(log |C|);
-
             }
         } //O(n(log|T|+log(|C|))
         return nuevo_array;
